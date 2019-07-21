@@ -20,6 +20,27 @@ const API_ID_REGEXP = /^([a-zA-Z0-9-_:]+):([a-zA-Z0-9-_]+)$/;
 // Functions
 
 /**
+ * @param {string} dateString
+ * @returns {Date}
+ * @public
+ */
+function toDateFromString(dateString) {
+    if (!dateString) {
+        return null;
+    }
+
+    const date = new Date(dateString);
+
+
+    if (Number.isNaN(date.getTime())) {
+        invalidDates.push(dateString);
+        return null;
+    }
+
+    return date;
+}
+
+/**
  * Filter a list of string and return all elements that are not valid Api ID
  * @param {string[]} list
  * @returns {Array.<id: string[], invalidApiId: string[]>}
@@ -84,6 +105,20 @@ function parsePublicId(apiId) {
 }
 
 /**
+ * @param {ApiId} apiId
+ * @returns {Id}
+ */
+function getResourceId(apiId) {
+    const parse = parsePublicId(id);
+
+    if (!parse) {
+        return null;
+    }
+
+    return parse.id;
+}
+
+/**
  * Transform an account ID to it's API equivalent
  * @param {string} id
  * @public
@@ -92,11 +127,34 @@ function toApiId(id) {
     return base64url.encode(`${ACCOUNT_TYPE_CODE}:${id}`);
 }
 
+/**
+ * Create a query parameter error
+ * @param {string} code    - Code of the error
+ * @param {string} message - 
+ * @returns {QueryParameterError}
+ */
+function toQueryParameterError({
+    code,
+    message,
+    parameter,
+    value,
+}) {
+    return {
+        code,
+        message,
+        parameter,
+        value,
+    };
+}
+
 // ============================================================
 // Exports
 export {
     getInvalidApiIdList,
+    getResourceId,
     isValidApiId,
     parsePublicId,
     toApiId,
+    toDateFromString,
+    toQueryParameterError,
 };
