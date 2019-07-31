@@ -1,0 +1,16 @@
+/**
+ * @typedef {string} ApiId
+ */
+
+/**
+ * @typedef {string|number} ResourceId
+ */
+
+/**
+ * @typedef {Object} QueryParameterError
+ * @property {string} code      - Code of the error
+ * @property {string} message   - Error message
+ * @property {string} parameter - Name of the parameter concerned by the error
+ * @property {*}      value     - Parameter value
+ */
+

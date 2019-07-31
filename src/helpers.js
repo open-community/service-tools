@@ -1,18 +1,28 @@
-import { BASE64_REGEXP } from './constants';
-
 // ============================================================
 // Helpers
+
 /**
- * Indicate if the given string is a valid base64 string or not.
- * @param {*} string
- * @returns {boolean}
+ * @param {string} dateString
+ * @returns {Date}
+ * @public
  */
-function isValidBase64(string) {
-    return BASE64_REGEXP.test(string);
+function toDateFromString(dateString) {
+    if (typeof dateString !== 'string') {
+        return null;
+    }
+
+    const epoch = Date.parse(dateString);
+    const date = new Date(epoch);
+
+    if (Number.isNaN(date.getTime()) || date.toISOString() !== dateString) {
+        return null;
+    }
+
+    return date;
 }
 
 // ============================================================
 // Exports
 export {
-    isValidBase64,
+    toDateFromString,
 };

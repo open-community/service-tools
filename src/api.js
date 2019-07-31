@@ -1,16 +1,7 @@
 // ============================================================
 // Import packages
 import base64url from 'base64url';
-
-// ============================================================
-// Import modules
-import {
-    RESOURCE_TYPE,
-} from './constants';
-
-import {
-    isValidBase64,
-} from '../helpers';
+import _ from 'lodash';
 
 // ============================================================
 // Module's constants and variables
@@ -20,76 +11,83 @@ const API_ID_REGEXP = /^([a-zA-Z0-9-_:]+):([a-zA-Z0-9-_]+)$/;
 // Functions
 
 /**
- * @param {string} dateString
- * @returns {Date}
+ * API Helpers.
+ * @namespace api
+ */
+
+/**
+ * Filter a list of string and return all elements that are not valid Api ID.
+ * @param {ApiId[]}                     list           - List of ID to validate
+ * @param {ResourceType|ResourceType[]} [resourceType] - Resource type allowed
+ * @returns {string[]}
+ * @memberOf api
  * @public
  */
-function toDateFromString(dateString) {
-    if (!dateString) {
-        return null;
-    }
-
-    const date = new Date(dateString);
-
-
-    if (Number.isNaN(date.getTime())) {
-        invalidDates.push(dateString);
-        return null;
-    }
-
-    return date;
+function getInvalidApiIdList(list, resourceType) {
+    const invalidList = list.filter(apiID => !isValidApiId(apiID, resourceType));
+    return _.uniq(invalidList);
 }
 
 /**
- * Filter a list of string and return all elements that are not valid Api ID
- * @param {string[]} list
- * @returns {Array.<id: string[], invalidApiId: string[]>}
- * @private
+ * Return the resource id corresponding to the given api ID.
+ * If the ID is not a valid apiId or resource doesn't match the expected type, then return null.
+ * @param {ApiId}                       apiId
+ * @param {ResourceType|ResourceType[]} [resourceType]
+ * @returns {?ResourceId}
+ * @memberOf api
+ * @public
  */
-function getInvalidApiIdList(list, resourceType) {
-    return list.filter(apiID => !isValidApiId(apiID, resourceType));
+function getResourceId(apiId, resourceType) {
+    const parse = parsePublicId(apiId);
+
+    if (!parse) {
+        return null;
+    }
+
+    if (typeof resourceType === 'string') {
+        if (parse.type !== resourceType) {
+            return null;
+        }
+    }
+    else if (Array.isArray(resourceType)) {
+        if (!resourceType.includes(parse.type)) {
+            return null;
+        }
+    }
+
+    return parse.id;
 }
 
 /**
  * Check that the given API id is valid.
- * @param {string}                      id
- * @param {ResourceType|[ResourceType]} [resourceType] - Type of resource
+ * @param {ApiId}                       apiId
+ * @param {ResourceType|ResourceType[]} [resourceType] - Type of resource
  * @returns {boolean}
+ * @memberOf api
  * @public
  */
-function isValidApiId(id, resourceType) {
-    const info = parsePublicId(id);
+function isValidApiId(apiId, resourceType) {
+    const id = getResourceId(apiId, resourceType);
 
-    if (!info) {
+    if (!id) {
         return false;
     }
 
-    if (!info.type) {
-        return false;
-    }
-
-    // If resource type is defined, then we check if it match
-    if (typeof resourceType === 'string' && info.type !== resourceType) {
-        return false;
-    }
-    else if (Array.isArray(resourceType) && resourceType.length && !resourceType.includes(info.type)) {
-        return false;
-    }
-
-    if (!isValidBase64(info.id)) {
-        return false;
-    }
-
-    return Boolean(info.id);
+    return Boolean(id);
 }
 
 /**
  * Parse a public ID and return it's type and real id
- * @param {string} apiId
- * @returns {{type: string, id: string}}
+ * @param {ApiId} apiId
+ * @returns {?{id: ResourceId, type: ResourceType}}
+ * @memberOf api
  * @public
  */
 function parsePublicId(apiId) {
+    if (typeof apiId !== 'string') {
+        return null;
+    }
+
     const decoded = base64url.decode(apiId);
 
     const match = decoded.match(API_ID_REGEXP);
@@ -105,32 +103,22 @@ function parsePublicId(apiId) {
 }
 
 /**
- * @param {ApiId} apiId
- * @returns {Id}
- */
-function getResourceId(apiId) {
-    const parse = parsePublicId(id);
-
-    if (!parse) {
-        return null;
-    }
-
-    return parse.id;
-}
-
-/**
  * Transform an account ID to it's API equivalent
- * @param {string} id
+ * @param {ResourceType} resourceType
+ * @param {ResourceId}   resourceId
+ * @memberOf api
  * @public
  */
-function toApiId(id) {
-    return base64url.encode(`${ACCOUNT_TYPE_CODE}:${id}`);
+function toApiId(resourceType, resourceId) {
+    return base64url.encode(`${resourceType}:${resourceId}`);
 }
 
 /**
  * Create a query parameter error
- * @param {string} code    - Code of the error
- * @param {string} message - 
+ * @param {string} code      - Code of the error
+ * @param {string} message   - Error message
+ * @param {string} parameter - Name of the parameter concerned by the error
+ * @param {*}      value     - Parameter value
  * @returns {QueryParameterError}
  */
 function toQueryParameterError({
@@ -143,7 +131,7 @@ function toQueryParameterError({
         code,
         message,
         parameter,
-        value,
+        value: _.cloneDeep(value),
     };
 }
 
@@ -155,6 +143,5 @@ export {
     isValidApiId,
     parsePublicId,
     toApiId,
-    toDateFromString,
     toQueryParameterError,
 };

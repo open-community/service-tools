@@ -3,12 +3,16 @@
 const BASE64_REGEXP = /^[a-zA-Z0-9-_]*$/;
 
 /**
- * @name ResourceType
- * @enum
+ * @enum {string} ResourceType
  */
-const RESOURCE_TYPE = {
-    ACCOUNT : 'account',
+const ResourceType = {
+    /** Represent a user account resource */
+    ACCOUNT: 'account',
+
+    /** Represent an identity */
     IDENTITY: 'identity',
+
+    /** Represent a text */
     TEXT: 'text',
 };
 
@@ -16,5 +20,5 @@ const RESOURCE_TYPE = {
 // Exports
 export {
     BASE64_REGEXP,
-    RESOURCE_TYPE,
+    ResourceType,
 };
