@@ -59,6 +59,23 @@ function getResourceId(apiId, resourceType) {
 }
 
 /**
+ * Return the resource type of the given api id.
+ * If invalid api ID, return null
+ * @param {ApiId} apiId
+ * @returns {?ResourceType}
+ * @public
+ */
+function getResourceType(apiId) {
+    const parse = parsePublicId(apiId);
+
+    if (!parse) {
+        return null;
+    }
+
+    return parse.type;
+}
+
+/**
  * Check that the given API id is valid.
  * @param {ApiId}                       apiId
  * @param {ResourceType|ResourceType[]} [resourceType] - Type of resource
@@ -140,6 +157,7 @@ function toQueryParameterError({
 export {
     getInvalidApiIdList,
     getResourceId,
+    getResourceType,
     isValidApiId,
     parsePublicId,
     toApiId,

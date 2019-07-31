@@ -9,13 +9,13 @@ import base64url from 'base64url';
 // ============================================================
 // Import modules
 import {
-    BASE64_REGEXP,
     ResourceType,
-} from './constants';
+} from '../constants';
 
 import {
     getInvalidApiIdList,
     getResourceId,
+    getResourceType,
     isValidApiId,
     parsePublicId,
     toApiId,
@@ -215,6 +215,21 @@ describe('getResourceId', () => {
         );
 
         assert.equal(getResourceId(apiId), resourceId);
+    });
+});
+
+describe('getResourceType', () => {
+    it('return null if invalid apiId', () => {
+        const fakeId = generateFakeId();
+
+        assert.isNull(getResourceType(fakeId));
+    });
+
+    it('return the type of the resource', () => {
+        const resourcetype = ResourceType.IDENTITY;
+        const apiId = generateId(resourcetype);
+
+        assert.equal(getResourceType(apiId), resourcetype);
     });
 });
 
