@@ -3,13 +3,11 @@
 // ============================================================
 // Import packages
 import { assert } from 'chai';
-import faker from 'faker';
-import base64url from 'base64url';
 
 // ============================================================
 // Import modules
 import {
-    toDateFromString
+    toDateFromString,
 } from './helpers';
 
 // ============================================================
