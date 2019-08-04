@@ -7,9 +7,6 @@
   "homepage": "https://abrahamtewa.github.io/starter.nodejs",
   "bugs": "https://github.com/AbrahamTewa/starter.nodejs/issues",
   "private": true,
-  "bin": {
-    "hello": "./dist/cli.js"
-  },
   "main": "./dist/index.js",
   "scripts": {
     "build": "gulp build",
