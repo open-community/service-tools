@@ -3,20 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+exports.default = void 0;
 
 // ============================================================
 // Error
-var ApiError = function ApiError(message) {
-  _classCallCheck(this, ApiError);
+class ApiError {
+  constructor(message) {
+    this.message = message;
+  }
 
-  this.message = message;
-}; // ============================================================
+} // ============================================================
 // Exports
 
 
 var _default = ApiError;
-exports["default"] = _default;
+exports.default = _default;
 //# sourceMappingURL=ApiError.js.map

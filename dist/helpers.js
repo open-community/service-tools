@@ -18,8 +18,8 @@ function toDateFromString(dateString) {
     return null;
   }
 
-  var epoch = Date.parse(dateString);
-  var date = new Date(epoch);
+  const epoch = Date.parse(dateString);
+  const date = new Date(epoch);
 
   if (Number.isNaN(date.getTime()) || date.toISOString() !== dateString) {
     return null;

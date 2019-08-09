@@ -38,7 +38,7 @@ function getInvalidApiIdList(list, resourceType) {
  * @public
  */
 function getResourceId(apiId, resourceType) {
-    const parse = parsePublicId(apiId);
+    const parse = parseApiId(apiId);
 
     if (!parse) {
         return null;
@@ -66,7 +66,7 @@ function getResourceId(apiId, resourceType) {
  * @public
  */
 function getResourceType(apiId) {
-    const parse = parsePublicId(apiId);
+    const parse = parseApiId(apiId);
 
     if (!parse) {
         return null;
@@ -100,7 +100,7 @@ function isValidApiId(apiId, resourceType) {
  * @memberOf api
  * @public
  */
-function parsePublicId(apiId) {
+function parseApiId(apiId) {
     if (typeof apiId !== 'string') {
         return null;
     }
@@ -159,7 +159,7 @@ export {
     getResourceId,
     getResourceType,
     isValidApiId,
-    parsePublicId,
+    parseApiId,
     toApiId,
     toQueryParameterError,
 };

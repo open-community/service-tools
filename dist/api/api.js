@@ -7,7 +7,7 @@ exports.getInvalidApiIdList = getInvalidApiIdList;
 exports.getResourceId = getResourceId;
 exports.getResourceType = getResourceType;
 exports.isValidApiId = isValidApiId;
-exports.parsePublicId = parsePublicId;
+exports.parseApiId = parseApiId;
 exports.toApiId = toApiId;
 exports.toQueryParameterError = toQueryParameterError;
 
@@ -15,13 +15,13 @@ var _base64url = _interopRequireDefault(require("base64url"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // ============================================================
 // Import packages
 // ============================================================
 // Module's constants and variables
-var API_ID_REGEXP = /^([a-zA-Z0-9-_:]+):([a-zA-Z0-9-_]+)$/; // ============================================================
+const API_ID_REGEXP = /^([a-zA-Z0-9-_:]+):([a-zA-Z0-9-_]+)$/; // ============================================================
 // Functions
 
 /**
@@ -39,10 +39,8 @@ var API_ID_REGEXP = /^([a-zA-Z0-9-_:]+):([a-zA-Z0-9-_]+)$/; // =================
  */
 
 function getInvalidApiIdList(list, resourceType) {
-  var invalidList = list.filter(function (apiID) {
-    return !isValidApiId(apiID, resourceType);
-  });
-  return _lodash["default"].uniq(invalidList);
+  const invalidList = list.filter(apiID => !isValidApiId(apiID, resourceType));
+  return _lodash.default.uniq(invalidList);
 }
 /**
  * Return the resource id corresponding to the given api ID.
@@ -56,7 +54,7 @@ function getInvalidApiIdList(list, resourceType) {
 
 
 function getResourceId(apiId, resourceType) {
-  var parse = parsePublicId(apiId);
+  const parse = parseApiId(apiId);
 
   if (!parse) {
     return null;
@@ -84,7 +82,7 @@ function getResourceId(apiId, resourceType) {
 
 
 function getResourceType(apiId) {
-  var parse = parsePublicId(apiId);
+  const parse = parseApiId(apiId);
 
   if (!parse) {
     return null;
@@ -103,7 +101,7 @@ function getResourceType(apiId) {
 
 
 function isValidApiId(apiId, resourceType) {
-  var id = getResourceId(apiId, resourceType);
+  const id = getResourceId(apiId, resourceType);
 
   if (!id) {
     return false;
@@ -120,14 +118,14 @@ function isValidApiId(apiId, resourceType) {
  */
 
 
-function parsePublicId(apiId) {
+function parseApiId(apiId) {
   if (typeof apiId !== 'string') {
     return null;
   }
 
-  var decoded = _base64url["default"].decode(apiId);
+  const decoded = _base64url.default.decode(apiId);
 
-  var match = decoded.match(API_ID_REGEXP);
+  const match = decoded.match(API_ID_REGEXP);
 
   if (!match) {
     return null;
@@ -148,7 +146,7 @@ function parsePublicId(apiId) {
 
 
 function toApiId(resourceType, resourceId) {
-  return _base64url["default"].encode("".concat(resourceType, ":").concat(resourceId));
+  return _base64url.default.encode(`${resourceType}:${resourceId}`);
 }
 /**
  * Create a query parameter error
@@ -160,16 +158,17 @@ function toApiId(resourceType, resourceId) {
  */
 
 
-function toQueryParameterError(_ref) {
-  var code = _ref.code,
-      message = _ref.message,
-      parameter = _ref.parameter,
-      value = _ref.value;
+function toQueryParameterError({
+  code,
+  message,
+  parameter,
+  value
+}) {
   return {
-    code: code,
-    message: message,
-    parameter: parameter,
-    value: _lodash["default"].cloneDeep(value)
+    code,
+    message,
+    parameter,
+    value: _lodash.default.cloneDeep(value)
   };
 } // ============================================================
 // Exports

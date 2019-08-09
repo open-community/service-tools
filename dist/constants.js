@@ -10,7 +10,7 @@ exports.ResourceType = void 0;
 /**
  * @enum {string} ResourceType
  */
-var ResourceType = {
+const ResourceType = {
   /** Represent a user account resource */
   ACCOUNT: 'account',
 

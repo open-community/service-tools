@@ -5,26 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "RequestError", {
   enumerable: true,
-  get: function get() {
-    return _RequestError["default"];
+  get: function () {
+    return _RequestError.default;
   }
 });
 Object.defineProperty(exports, "InvalidApiIdError", {
   enumerable: true,
-  get: function get() {
-    return _InvalidApiIdError["default"];
+  get: function () {
+    return _InvalidApiIdError.default;
   }
 });
 Object.defineProperty(exports, "InvalidParameterError", {
   enumerable: true,
-  get: function get() {
-    return _InvalidParameterError["default"];
+  get: function () {
+    return _InvalidParameterError.default;
   }
 });
 Object.defineProperty(exports, "InvalidResourceTypeError", {
   enumerable: true,
-  get: function get() {
-    return _InvalidResourceTypeError["default"];
+  get: function () {
+    return _InvalidResourceTypeError.default;
   }
 });
 
@@ -36,5 +36,5 @@ var _InvalidParameterError = _interopRequireDefault(require("./InvalidParameterE
 
 var _InvalidResourceTypeError = _interopRequireDefault(require("./InvalidResourceTypeError"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 //# sourceMappingURL=index.js.map

@@ -11,9 +11,9 @@ var _helpers = require("./helpers");
 // Import modules
 // ============================================================
 // Tests
-describe('helpers', function () {
-  describe('toDateFromString', function () {
-    it('return null if invalid date string', function () {
+describe('helpers', () => {
+  describe('toDateFromString', () => {
+    it('return null if invalid date string', () => {
       _chai.assert.isNull((0, _helpers.toDateFromString)(), 'No date provided');
 
       _chai.assert.isNull((0, _helpers.toDateFromString)(''), 'Parameter is an empty string');
@@ -26,16 +26,16 @@ describe('helpers', function () {
 
       _chai.assert.isNull((0, _helpers.toDateFromString)(null), 'Parameter is null');
 
-      var date = new Date();
+      const date = new Date();
 
       _chai.assert.isNull((0, _helpers.toDateFromString)('|'), 'Parameter is a fake string');
 
-      _chai.assert.isNull((0, _helpers.toDateFromString)("|".concat(date)), 'Parameter is an invalid date');
+      _chai.assert.isNull((0, _helpers.toDateFromString)(`|${date}`), 'Parameter is an invalid date');
     });
-    it('return a date if valid', function () {
-      var date = new Date();
-      var stringDate = date.toISOString();
-      var newDate = (0, _helpers.toDateFromString)(stringDate);
+    it('return a date if valid', () => {
+      const date = new Date();
+      const stringDate = date.toISOString();
+      const newDate = (0, _helpers.toDateFromString)(stringDate);
 
       _chai.assert.equal(date.getTime(), newDate.getTime());
 

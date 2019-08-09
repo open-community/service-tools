@@ -10,6 +10,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "gulp build",
+    "build:watch": "gulp build:watch",
     "clean": "gulp clean",
     "doc:jsdoc": "jsdoc -c jsdoc.config.json --readme README.md",
     "lint": "run-s lint:*",
@@ -30,6 +31,7 @@
   "dependencies": {
     "base64url": "^3.0.1",
     "better-console": "^1.0.1",
+    "faker": "^4.1.0",
     "lodash": "^4.17.15",
     "yargs": "^13.3.0"
   },
@@ -47,11 +49,13 @@
     "eslint": "^6.1.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "faker": "^4.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-cli": "^2.2.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-print": "^5.0.2",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-watch": "^5.0.1",
     "jsdoc": "^3.6.3",
     "jsdoc-oblivion": "0.0.9",
     "minami": "^1.1.1",
@@ -63,8 +67,8 @@
     "proxyquire": "^2.1.1",
     "remark-cli": "^7.0.0",
     "remark-preset-lint-recommended": "^3.0.3",
-    "semantic-release": "^15.13.18",
-    "sinon": "^7.3.2",
-    "source-map-support": "^0.5.12"
+    "semantic-release": "^15.13.19",
+    "sinon": "^7.4.0",
+    "source-map-support": "^0.5.13"
   }
 }
