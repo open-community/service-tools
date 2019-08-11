@@ -74,15 +74,15 @@ function getListApiIdFromReq(req, parameter, expectedTypes) {
         });
 
     // Returning the list and the errors
-    return listId.reduce(({ list, errors }, apiId) => {
+    return listId.reduce(({ value, errors }, apiId) => {
         if (isValidApiId(apiId, expectedTypes)) {
-            list.push(apiId);
+            value.push(apiId);
         }
         else {
             errors.push(createError(apiId));
         }
 
-        return { list, errors };
+        return { value, errors };
     }, { value: [], errors: [] });
 }
 
